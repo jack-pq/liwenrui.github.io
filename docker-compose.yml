@@ -1,0 +1,28 @@
+services:
+  life-workbench:
+    build: .
+    container_name: life-workbench
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # 飞书凭证（必填）
+      - FEISHU_APP_ID=${FEISHU_APP_ID}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET}
+      - FEISHU_BASE_TOKEN=${FEISHU_BASE_TOKEN}
+      # 数据表 ID（必填）
+      - FEISHU_TABLE_FINANCE=${FEISHU_TABLE_FINANCE}
+      - FEISHU_TABLE_HABIT=${FEISHU_TABLE_HABIT}
+      - FEISHU_TABLE_HABIT_LOG=${FEISHU_TABLE_HABIT_LOG}
+      - FEISHU_TABLE_FITNESS=${FEISHU_TABLE_FITNESS}
+      - FEISHU_TABLE_SCHEDULE=${FEISHU_TABLE_SCHEDULE}
+      - FEISHU_TABLE_SHOPPING=${FEISHU_TABLE_SHOPPING}
+      - FEISHU_TABLE_COLLECTION=${FEISHU_TABLE_COLLECTION}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
